@@ -1,6 +1,7 @@
 *.class
 
 conf.properties
+conf.properties.my
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
