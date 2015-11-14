@@ -11,8 +11,8 @@ import org.openqa.selenium.*;
 public class SeleniumUtil {
 	public static WebDriver driver;
 
-	public static void clickUtilClickable(By clickedBy) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+	public static void clickUtilClickable(By clickedBy, WebDriverWait yourWait) {
+		WebDriverWait wait = yourWait;
 		wait.until(ExpectedConditions.presenceOfElementLocated(clickedBy));
 		wait.until(ExpectedConditions.elementToBeClickable(clickedBy));
 		WebElement element = driver.findElement(clickedBy);
@@ -22,6 +22,10 @@ public class SeleniumUtil {
 				+ element.getText());
 		System.out.println("-------------------------------------------------");
 		element.click();
+	}
+
+	public static void clickUtilClickable(By clickedBy) {
+		clickUtilClickable(clickedBy, new WebDriverWait(driver, 30));
 	}
 
 	public static void selectByValueUtilSelectable(By selectBy, String value) {
@@ -70,7 +74,7 @@ public class SeleniumUtil {
 		}
 		return false;
 	}
-	
+
 	public static void sendkeyUtilPresence(By inputBy, String inputContent) {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.presenceOfElementLocated(inputBy));

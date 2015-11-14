@@ -62,22 +62,36 @@ public class GuahaoV1 {
 				.click();
 
 		SeleniumUtil.clickUtilClickable(By.linkText(orderDepartment));
-		SeleniumUtil.clickUtilClickable(By.xpath("//a[contains(@href, 'date1="
-				+ orderDate + "')]"));
+
+		Boolean isOrderStarted = false;
+		while (!isOrderStarted) {
+			try {
+				SeleniumUtil.clickUtilClickable(
+						By.xpath("//a[contains(@href, 'date1=" + orderDate
+								+ "')]"), new WebDriverWait(driver, 5));
+				isOrderStarted = true;
+			} catch (TimeoutException ex) {
+				System.out.println("Timeout Message: " + ex.getMessage());
+				driver.navigate().refresh();
+				// Following refresh code will cause 059 error
+				// driver.navigate().to(driver.getCurrentUrl());
+				isOrderStarted = false;
+			}
+		}
 		driver.switchTo().frame(driver.findElement(By.className("cboxIframe")));
 		SeleniumUtil.clickUtilClickable(By.linkText("预约挂号"));
 		System.out.println("The iFrame of clicked element is:"
 				+ driver.switchTo().defaultContent().getTitle());
 
-		 SeleniumUtil.switchWindow("guahao.php");
-		 SeleniumUtil.clickUtilClickable(By
-		 .xpath("//input[contains(@value,'点击获取')]"));
-		 SeleniumUtil.selectByValueUtilSelectable(By.id("baoxiao"), "1");
-		 SeleniumUtil.waitForInput(By.id("dxcode1"));
-		
-		 driver.findElement(
-		 By.xpath("//img[contains(@src,'../images/v2_queren.gif')]"))
-		 .click();
+		SeleniumUtil.switchWindow("guahao.php");
+		SeleniumUtil.clickUtilClickable(By
+				.xpath("//input[contains(@value,'点击获取')]"));
+		SeleniumUtil.selectByValueUtilSelectable(By.id("baoxiao"), "1");
+		SeleniumUtil.waitForInput(By.id("dxcode1"));
+
+		driver.findElement(
+				By.xpath("//img[contains(@src,'../images/v2_queren.gif')]"))
+				.click();
 	}
 
 	@After
